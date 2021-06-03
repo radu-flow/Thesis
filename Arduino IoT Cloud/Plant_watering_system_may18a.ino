@@ -17,7 +17,7 @@
 #include "thingProperties.h"
 const int pumpPin = 13;
 const int soilSensor = A1;
-const int dry = 270;
+const int dry = 300;
 
 
 void setup() {
@@ -47,14 +47,13 @@ void setup() {
 
 void loop() {
   ArduinoCloud.update();
-  // Your code here
   // read current moisture
   moisture = analogRead(soilSensor);
   Serial.println(moisture);
   delay(1000);
   
   if (moisture >= dry) {
-    // the soil is too dry, water!
+    
     Serial.println("Watering starts now!");
     Serial.println("Moisture is " + String(moisture));
     digitalWrite(pumpPin, LOW);
