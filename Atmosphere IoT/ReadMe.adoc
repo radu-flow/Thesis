@@ -6,8 +6,7 @@
 
 = Project: Automatic Watering System In Atmosphere IoT
  
-
-Describe your project
+An automatic watering system using the Arduino MEga borad and a low code development platfrom
 
 == Step 1: Installation
 1. Sign up on Atmosphere IoT
