@@ -1,0 +1,539 @@
+{
+  "name": "Automatic Watering System",
+  "createVersion": "2",
+  "description": "",
+  "lastModified": "2021-05-24T08:07:43.015Z",
+  "created": "2021-05-24T08:07:43.015Z",
+  "meta": {
+    "projectTypeName": "Arduino Mega",
+    "projectTypeId": "mega"
+  },
+  "planes": {
+    "Arduino Mega": {
+      "type": "arduino",
+      "compilerVersion": "latest",
+      "variants": [
+        "mega"
+      ],
+      "meta": {},
+      "elements": [
+        {
+          "name": "Interval",
+          "type": "EmbeddedInterval",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\tATMO_INTERVAL_Handle_t intervalHandle;\n    ATMO_INTERVAL_AddAbilityInterval(\n\t\tATMO_PROPERTY(Interval, instance), \n\t\tATMO_ABILITY(Interval, interval), \n\t\tATMO_PROPERTY(Interval, time), \n\t\t&intervalHandle\n\t);\n\t\n\treturn ATMO_Status_Success;\n\t",
+              "interval": "\treturn ATMO_Status_Success;"
+            },
+            "variables": {},
+            "embeddedPropertyConversions": {},
+            "codeUserChanged": {
+              "setup": false,
+              "interval": false
+            },
+            "instance": "ATMO_DRIVERINSTANCE_INTERVAL_INTERVAL1",
+            "time": 1000
+          },
+          "meta": {
+            "editorX": 276,
+            "editorY": 217,
+            "lastTrigger": "interval"
+          },
+          "triggers": {
+            "triggered": [],
+            "interval": [
+              {
+                "mapping": {},
+                "targetOrder": [],
+                "targetElement": "MositureSensor",
+                "targetAbility": "readRaw"
+              }
+            ]
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "interval": true
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "interval",
+              "triggers": [
+                "interval"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Pump",
+          "type": "EmbeddedGPIOPin",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\tATMO_GPIO_Config_t config;\n\tconfig.pinMode = ATMO_PROPERTY(Pump, mode);\n\tconfig.initialState = ATMO_PROPERTY(Pump, state);\n\tATMO_GPIO_SetPinConfiguration(ATMO_PROPERTY(Pump, instance), ATMO_PROPERTY(Pump, pin), &config);\n\n\t#if ATMO_PROPERTY(Pump, interruptEnabled) == true\n\t\tATMO_GPIO_RegisterInterruptCallback(\n\t\t\tATMO_PROPERTY(Pump, instance), \n\t\t\tATMO_PROPERTY(Pump, pin), \n\t\t\tATMO_PROPERTY(Pump, interruptMode), \n\t\t\tATMO_INTERRUPT(Pump, interrupt));\n\t#endif\n\t\n\treturn ATMO_Status_Success;\n\t",
+              "setState": "\n\tATMO_BOOL_t state;\n\tATMO_GetBool(in, &state);\n\tATMO_GPIO_SetPinState(ATMO_PROPERTY(Pump, instance), ATMO_PROPERTY(Pump, pin), (ATMO_GPIO_PinState_t)state);\n\treturn ATMO_Status_Success;\n\t",
+              "setPinHigh": "\n\tATMO_GPIO_SetPinState(ATMO_PROPERTY(Pump, instance), ATMO_PROPERTY(Pump, pin), ATMO_GPIO_PinState_High);\n\treturn ATMO_Status_Success;\n\t",
+              "setPinLow": "\n\tATMO_GPIO_SetPinState(ATMO_PROPERTY(Pump, instance), ATMO_PROPERTY(Pump, pin), ATMO_GPIO_PinState_Low);\n\treturn ATMO_Status_Success;\n\t",
+              "read": "\n\tATMO_CreateValueBool(out, ATMO_GPIO_Read(ATMO_PROPERTY(Pump, instance), ATMO_PROPERTY(Pump, pin)));\n\treturn ATMO_Status_Success;\n\t",
+              "toggle": "\n\tATMO_GPIO_Toggle(ATMO_PROPERTY(Pump, instance), ATMO_PROPERTY(Pump, pin));\n\treturn ATMO_Status_Success;\n\t",
+              "interrupt": "\n\tATMO_CreateValueCopy(out, in);\n\treturn ATMO_Status_Success;\n\t"
+            },
+            "variables": {},
+            "embeddedPropertyConversions": {},
+            "codeUserChanged": {
+              "setup": false,
+              "setState": false,
+              "setPinHigh": false,
+              "setPinLow": false,
+              "read": false,
+              "toggle": false,
+              "interrupt": false
+            },
+            "instance": "ATMO_DRIVERINSTANCE_GPIO_GPIO1",
+            "pin": "D13",
+            "mode": "ATMO_GPIO_PinMode_Output_PushPull",
+            "state": "ATMO_GPIO_PinState_Low",
+            "interruptEnabled": false,
+            "interruptMode": "ATMO_GPIO_InterruptTrigger_None"
+          },
+          "meta": {
+            "editorX": 1030,
+            "editorY": 235,
+            "lastTrigger": "interrupt"
+          },
+          "triggers": {
+            "triggered": [],
+            "stateSet": [],
+            "read": [],
+            "toggled": [],
+            "interrupt": []
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "setState": false,
+            "setPinHigh": false,
+            "setPinLow": false,
+            "read": false,
+            "toggle": false,
+            "interrupt": true
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "setState",
+              "triggers": [
+                "stateSet"
+              ]
+            },
+            {
+              "name": "setPinHigh",
+              "triggers": [
+                "stateSet"
+              ]
+            },
+            {
+              "name": "setPinLow",
+              "triggers": [
+                "stateSet"
+              ]
+            },
+            {
+              "name": "read",
+              "triggers": [
+                "read"
+              ]
+            },
+            {
+              "name": "toggle",
+              "triggers": [
+                "toggled"
+              ]
+            },
+            {
+              "name": "interrupt",
+              "triggers": [
+                "interrupt"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "LessThan270",
+          "type": "EmbeddedComparison",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\treturn ATMO_Status_Success;\n\t",
+              "evaluate": "\n\tATMO_BOOL_t conditionTrue = false;\n\n\t// Convert property to same type as input\n\tATMO_Value_t targetStr;\n\tATMO_Value_t targetNum;\n\t\n\tATMO_InitValue(&targetStr);\n\tATMO_InitValue(&targetNum);\n\tATMO_CreateValueString(&targetStr, ATMO_PROPERTY(LessThan270, target));\n\tATMO_CreateValueConverted(&targetNum, in->type, &targetStr);\n\t\n\tif(ATMO_CompareValues(in, &targetNum, ATMO_PROPERTY(LessThan270, condition), &conditionTrue) != ATMO_Status_Success)\n\t{\n\t\tATMO_Value_t value;\n\t\tATMO_InitValue(&value);\n\t\tATMO_TriggerHandler(ATMO_TRIGGER(LessThan270, invalidType), NULL);\n\t\tATMO_FreeValue(&value);\n\t\tATMO_FreeValue(&targetStr);\n\t\tATMO_FreeValue(&targetNum);\n\t\treturn ATMO_Status_Fail;\n\t}\n\n\tATMO_FreeValue(&targetStr);\n\tATMO_FreeValue(&targetNum);\n\n\n\tATMO_Value_t value;\n\tATMO_InitValue(&value);\n\tATMO_CreateValueCopy(&value, in);\n\tATMO_TriggerHandler(conditionTrue ? ATMO_TRIGGER(LessThan270, conditionTrue) : ATMO_TRIGGER(LessThan270, conditionFalse), &value);\n\tATMO_FreeValue(&value);\t\t\n\n\treturn ATMO_Status_Success;\n\t"
+            },
+            "variables": {},
+            "embeddedPropertyConversions": {
+              "target": "string"
+            },
+            "codeUserChanged": {
+              "setup": false,
+              "evaluate": false
+            },
+            "condition": "ATMO_LESS_THAN_EQUAL",
+            "target": "270"
+          },
+          "meta": {
+            "editorX": 762,
+            "editorY": 171,
+            "lastTrigger": "conditionTrue"
+          },
+          "triggers": {
+            "triggered": [],
+            "conditionTrue": [
+              {
+                "mapping": {},
+                "targetOrder": [],
+                "targetElement": "Pump",
+                "targetAbility": "setPinHigh"
+              }
+            ],
+            "conditionFalse": [],
+            "invalidType": []
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "evaluate": false
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "evaluate",
+              "triggers": []
+            }
+          ]
+        },
+        {
+          "name": "MositureSensor",
+          "type": "EmbeddedADCPin",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables",
+            "adc"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\treturn ATMO_Status_Success;\n\t",
+              "readRaw": "\n\t\n\tint32_t adcReading = 0;\n\t\n\tATMO_ADC_ReadRaw(\n\t\tATMO_PROPERTY(MositureSensor, instance), \n\t\tATMO_PROPERTY(MositureSensor, pin), \n\t\t&adcReading, \n\t\tATMO_PROPERTY(MositureSensor, numberOfSamples));\n\t\n\tATMO_CreateValueInt(out, adcReading);\n\treturn ATMO_Status_Success;\n\t",
+              "readVoltage": "\n\t\n\tint32_t adcReading = 0;\n\t\n\tATMO_ADC_Read(\n\t\tATMO_PROPERTY(MositureSensor, instance), \n\t\tATMO_PROPERTY(MositureSensor, pin),\n\t\tATMO_ADC_VoltageUnits_MilliVolts,\n\t\t&adcReading, \n\t\tATMO_PROPERTY(MositureSensor, numberOfSamples));\n\n\tATMO_CreateValueInt(out, adcReading);\n\treturn ATMO_Status_Success;\n\t",
+              "readReferenceVoltage": "\n\t\n\tuint32_t adcReading = 0;\n\t\n\tATMO_ADC_GetReferenceVoltageMv(\n\t\tATMO_PROPERTY(MositureSensor, instance), \n\t\t&adcReading);\n\n\tATMO_CreateValueInt(out, adcReading);\n\treturn ATMO_Status_Success;\n\t"
+            },
+            "variables": {},
+            "embeddedPropertyConversions": {},
+            "codeUserChanged": {
+              "setup": false,
+              "readRaw": false,
+              "readVoltage": false,
+              "readReferenceVoltage": false
+            },
+            "instance": "ATMO_DRIVERINSTANCE_ADC_ADC1",
+            "pin": "A1",
+            "numberOfSamples": 1
+          },
+          "meta": {
+            "editorX": 503,
+            "editorY": 222,
+            "lastTrigger": "rawRead"
+          },
+          "triggers": {
+            "triggered": [],
+            "rawRead": [
+              {
+                "mapping": {},
+                "targetOrder": [],
+                "targetElement": "LessThan270",
+                "targetAbility": "evaluate"
+              },
+              {
+                "mapping": {},
+                "targetOrder": [],
+                "targetElement": "GreaterThan270",
+                "targetAbility": "evaluate"
+              }
+            ],
+            "voltageRead": [],
+            "referenceVoltageRead": []
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "readRaw": false,
+            "readVoltage": false,
+            "readReferenceVoltage": false
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "readRaw",
+              "triggers": [
+                "rawRead"
+              ]
+            },
+            {
+              "name": "readVoltage",
+              "triggers": [
+                "voltageRead"
+              ]
+            },
+            {
+              "name": "readReferenceVoltage",
+              "triggers": [
+                "referenceVoltageRead"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GreaterThan270",
+          "type": "EmbeddedComparison",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\treturn ATMO_Status_Success;\n\t",
+              "evaluate": "\n\tATMO_BOOL_t conditionTrue = false;\n\n\t// Convert property to same type as input\n\tATMO_Value_t targetStr;\n\tATMO_Value_t targetNum;\n\t\n\tATMO_InitValue(&targetStr);\n\tATMO_InitValue(&targetNum);\n\tATMO_CreateValueString(&targetStr, ATMO_PROPERTY(GreaterThan270, target));\n\tATMO_CreateValueConverted(&targetNum, in->type, &targetStr);\n\t\n\tif(ATMO_CompareValues(in, &targetNum, ATMO_PROPERTY(GreaterThan270, condition), &conditionTrue) != ATMO_Status_Success)\n\t{\n\t\tATMO_Value_t value;\n\t\tATMO_InitValue(&value);\n\t\tATMO_TriggerHandler(ATMO_TRIGGER(GreaterThan270, invalidType), NULL);\n\t\tATMO_FreeValue(&value);\n\t\tATMO_FreeValue(&targetStr);\n\t\tATMO_FreeValue(&targetNum);\n\t\treturn ATMO_Status_Fail;\n\t}\n\n\tATMO_FreeValue(&targetStr);\n\tATMO_FreeValue(&targetNum);\n\n\n\tATMO_Value_t value;\n\tATMO_InitValue(&value);\n\tATMO_CreateValueCopy(&value, in);\n\tATMO_TriggerHandler(conditionTrue ? ATMO_TRIGGER(GreaterThan270, conditionTrue) : ATMO_TRIGGER(GreaterThan270, conditionFalse), &value);\n\tATMO_FreeValue(&value);\t\t\n\n\treturn ATMO_Status_Success;\n\t"
+            },
+            "variables": {},
+            "embeddedPropertyConversions": {
+              "target": "string"
+            },
+            "codeUserChanged": {
+              "setup": false,
+              "evaluate": false
+            },
+            "condition": "ATMO_GREATER_THAN_EQUAL",
+            "target": "270"
+          },
+          "meta": {
+            "editorX": 765,
+            "editorY": 327,
+            "lastTrigger": "conditionTrue"
+          },
+          "triggers": {
+            "triggered": [],
+            "conditionTrue": [
+              {
+                "mapping": {},
+                "targetOrder": [],
+                "targetElement": "Pump",
+                "targetAbility": "setPinLow"
+              }
+            ],
+            "conditionFalse": [],
+            "invalidType": []
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "evaluate": false
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "evaluate",
+              "triggers": []
+            }
+          ]
+        }
+      ],
+      "libraries": {},
+      "drivers": {
+        "adc": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_ADC_ADC1"
+          }
+        ],
+        "ble": [],
+        "block": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_BLOCK_BLOCK1"
+          }
+        ],
+        "cellular": [],
+        "embeddedCloud": [],
+        "datetime": [],
+        "filesytem": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_FILESYSTEM_FILESYSTEM1"
+          }
+        ],
+        "gpio": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_GPIO_GPIO1"
+          }
+        ],
+        "http": [],
+        "i2c": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_I2C_I2C1",
+            "primary": true
+          }
+        ],
+        "interval": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_INTERVAL_INTERVAL1"
+          }
+        ],
+        "nfc": [],
+        "pwm": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_PWM_PWM1"
+          }
+        ],
+        "spi": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_SPI_SPI1"
+          }
+        ],
+        "uart": [
+          {
+            "id": 0,
+            "name": "ATMO_DRIVERINSTANCE_UART_UART1"
+          },
+          {
+            "id": 1,
+            "name": "ATMO_DRIVERINSTANCE_UART_UART2"
+          }
+        ],
+        "wifi": []
+      },
+      "firmwareFiles": {
+        "artifactName": "firmware",
+        "fileName": "firmware.zip"
+      },
+      "static": {
+        "header": "",
+        "footer": "",
+        "functions": {
+          "ATMO_Setup": {
+            "returnType": "void",
+            "code": "",
+            "arguments": []
+          }
+        }
+      }
+    },
+    "Application": {
+      "type": "app",
+      "compilerVersion": "latest",
+      "variants": [],
+      "meta": {
+        "appViewLayouts": {
+          "320": {
+            "560": true
+          }
+        }
+      },
+      "elements": []
+    },
+    "Cloud": {
+      "type": "cloud",
+      "compilerVersion": "latest",
+      "variants": [],
+      "meta": {},
+      "elements": [],
+      "layout": {
+        "height": 1000,
+        "width": 1000,
+        "zIndexOrder": []
+      }
+    }
+  }
+}
