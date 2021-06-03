@@ -11,7 +11,8 @@ An automatic watering system using the Arduino Mega/Arduino Uno/Srduino mkr1010 
 == Step 1: Installation
 1. Open Arduino IDE
 2. Open File
-3. Open the 
+3. Open the Water_system.ino
+
 
 == Step 2: Assemble the circuit
 
