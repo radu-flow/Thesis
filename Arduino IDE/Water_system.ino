@@ -1,7 +1,7 @@
 // if soil sensor reads a value under this value, then start watering
 const int dry = 300;
 
-const int pumpPin = 5;
+const int pumpPin = 13;
 const int soilSensor = A1;
 
 void setup() {
