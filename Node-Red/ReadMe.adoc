@@ -12,7 +12,7 @@ An automatic watering system using the Arduino UNO/MEGA and a low code developme
 == Step 1: Installation
 1. Sign up on Node-Red
 2. Install Node-Red on computer and access your clou workplace
-3. Import the JSON file ...
+3. Import the JSON file Automatic Watering System
 
 THE BORADS SHOULD BE PROGRAMED TO RUN THE FIRMATA PROTOCOL IN ORDER FOR THE NODE RED PLATFROM TO ACCESS THE DATA FROM THE BOARDS
 
@@ -22,5 +22,5 @@ Assemble the circuit following the diagram Setup.png attached
 
 == Step 3: Load the code
 
-Upload the code contained in this sketch on to your board
+Deploy the code contained in this sketch on to your board
 
