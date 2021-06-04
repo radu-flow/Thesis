@@ -15,7 +15,7 @@
 */
 
 #include "thingProperties.h"
-const int pumpPin = 13;
+const int pumpPin = 1;
 const int soilSensor = A1;
 const int dry = 300;
 
